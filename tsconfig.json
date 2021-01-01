@@ -1,0 +1,30 @@
+{
+  "compilerOptions": {
+    "target": "ES2015",
+    "module": "esnext",
+    "strict": true,
+    "jsx": "preserve",
+    "importHelpers": true,
+    "moduleResolution": "node",
+    "skipLibCheck": true,
+    "esModuleInterop": true,
+    "allowSyntheticDefaultImports": true,
+    "sourceMap": true,
+    "baseUrl": ".",
+    "types": ["webpack-env"],
+    "paths": {
+      "@playground/*": ["playground/*"],
+      "@src/*": ["src/*"]
+    },
+    "lib": ["esnext", "dom", "dom.iterable", "scripthost"]
+  },
+  "include": [
+    "playground/*.ts",
+    "playground/**/*.ts",
+    "playground/*.vue",
+    "playground/**/*.vue",
+    "src/*.ts",
+    "src/**/*.ts"
+  ],
+  "exclude": ["node_modules"]
+}

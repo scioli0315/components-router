@@ -1,0 +1,27 @@
+{
+  "browser-router": {
+    "attributes": ["basename", "linkActiveClass", "linkExactActiveClass"]
+  },
+  "hash-router": {
+    "attributes": ["basename", "linkActiveClass", "linkExactActiveClass"]
+  },
+  "Navigate": {
+    "attributes": ["to", "state", "replace"]
+  },
+  "route": {
+    "attributes": ["path", "caseSensitive"]
+  },
+  "router-link": {
+    "attributes": [
+      "to",
+      "state",
+      "target",
+      "caseSensitive",
+      "end",
+      "replace",
+      "activeClass",
+      "exactActiveClass"
+    ]
+  },
+  "routes": {}
+}
