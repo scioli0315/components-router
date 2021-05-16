@@ -87,8 +87,7 @@ export function useQuery(): Ref<Query> {
     query.value = Object.keys(value).length > 0 ? value : emptyObject
   }
 
-  const stop = watch(() => location.search, setQuery)
-  setQuery()
+  const stop = watch(() => location.search, setQuery, { immediate: true })
 
   onUnmounted(() => {
     stop()
@@ -112,8 +111,7 @@ export function useMatch(pattern: Ref<PathPattern> | PathPattern): Ref<PathMatch
   const setPathMatch = () => {
     match.value = matchPath(unref(pattern), location.pathname)
   }
-  const stop = watch([() => location.pathname, _pattern], setPathMatch)
-  setPathMatch()
+  const stop = watch([() => location.pathname, _pattern], setPathMatch, { immediate: true })
 
   onUnmounted(() => {
     stop()
