@@ -8,6 +8,7 @@ import type {
   Transition,
   Update
 } from 'history'
+import { Ref } from 'vue'
 
 export type LocationKey = 'hash' | 'key' | 'pathname' | 'search' | 'state'
 export type Params = Record<string, string>
@@ -55,5 +56,7 @@ export interface NavigateOptions {
   replace?: boolean
   state?: State
 }
+
+export type MaybeRef<T> = Ref<T> | T
 
 export { HistoryPartialPath, Action, Blocker, Transition, State, History, Location, Update }

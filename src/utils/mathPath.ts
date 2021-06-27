@@ -59,8 +59,11 @@ const compilePath = (path: string, caseSensitive: boolean, end: boolean): Result
 }
 
 const matchPath = (pattern: PathPattern, pathname: string): PathMatch | null => {
-  const { path, caseSensitive = false, end = true } =
-    typeof pattern === 'string' ? { path: pattern } : pattern
+  const {
+    path,
+    caseSensitive = false,
+    end = true
+  } = typeof pattern === 'string' ? { path: pattern } : pattern
   const { matcher, paramNames } = compilePath(path, caseSensitive, end)
   const match = pathname.match(matcher)
 
