@@ -6,8 +6,6 @@ import { compoentsRouterActive } from './utils/symbolKey'
 const Routes = defineComponent({
   name: 'Routes',
 
-  props: {},
-
   setup(props, { slots }) {
     const isActive = inject(compoentsRouterActive)
     if (!isActive) throw new TypeError(getError('Routes'))
