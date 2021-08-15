@@ -1,7 +1,7 @@
 import { defineComponent, getCurrentInstance, h, inject, unref } from 'vue'
 
 import { useMatch } from './useApi'
-import { emptyMatch, getCrParentProps, getError, routePath } from './utils'
+import { createRoutePath, emptyMatch, getCurrentParentProps, getError } from './utils'
 import routersCache from './utils/routersCache'
 import { compoentsRouterActive } from './utils/symbolKey'
 
@@ -27,23 +27,23 @@ const Route = defineComponent({
 
     const cache = routersCache()
     const instance = getCurrentInstance()
-    const { match: parentMatch, compoentsRouter } = getCrParentProps()
+    const { __match: parentMatch, __compoentsRouter } = getCurrentParentProps()
     const _parentMatch = unref(parentMatch) || emptyMatch
 
-    const path = routePath(_parentMatch.path, props.path)
-    const match = useMatch({ path, caseSensitive: !!props.caseSensitive })
+    const path = createRoutePath(_parentMatch.path, props.path)
+    const __match = useMatch({ path, caseSensitive: !!props.caseSensitive })
 
     const parentRoutes = () => {
-      if (instance?.parent?.props.routes) return cache.getValue(instance.parent.uid)
-      return false
+      return instance?.parent?.props.__routes ? cache.getValue(instance.parent.uid) : false
     }
 
     return () => {
-      if (!match.value || parentRoutes()) return null
+      if (!__match.value || parentRoutes()) return null
+
       return slots.default
         ? h(slots.default, {
-            compoentsRouter,
-            match
+            __compoentsRouter,
+            __match
           })
         : null
     }
