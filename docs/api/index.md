@@ -233,12 +233,12 @@ const Home = defineComponent({
 
 ### `useMatch`
 
-- **类型** `(pattern: Ref<PathPattern> | PathPattern): Ref<PathMatch | null>`
+- **类型** `(pattern: Ref<PathPattern> | PathPattern): Ref<MatchResult | null>`
 
   ```ts
   type PathPattern = string | { path: string; caseSensitive?: boolean; end?: boolean }
 
-  interface PathMatch {
+  interface MatchResult {
     path: string
     pathname: string
     params: Params
