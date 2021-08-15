@@ -1,5 +1,6 @@
-import { defineComponent, inject, PropType } from 'vue'
+import { defineComponent, inject } from 'vue'
 
+import { propState, propToType } from './common'
 import type { State, To } from './types'
 import { useNavigate } from './useApi'
 import { getError } from './utils'
@@ -16,13 +17,10 @@ const Navigate = defineComponent({
 
   props: {
     to: {
-      type: [String, Object] as PropType<To>,
+      type: propToType,
       required: true
     },
-    state: {
-      type: Object as PropType<State>,
-      default: null
-    },
+    state: propState,
     from: String,
     replace: Boolean
   },
