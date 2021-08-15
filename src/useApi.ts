@@ -15,12 +15,12 @@ import {
 import type {
   Blocker,
   Location,
+  MatchResult,
   MaybeRef,
   NavigateFunction,
   NavigateOptions,
   Params,
   Path,
-  PathMatch,
   PathPattern,
   Query,
   To,
@@ -29,12 +29,12 @@ import type {
 import {
   emptyMatch,
   emptyObject,
-  getCrParentProps,
+  getCurrentParentProps,
   getError,
   queryToSearch,
   resolvePath
 } from './utils'
-import matchPath from './utils/mathPath'
+import { matchPath } from './utils/reactRouter'
 import { compoentsRouterActive, routerStateKey } from './utils/symbolKey'
 
 /**
@@ -44,16 +44,19 @@ export function useNavigate(): NavigateFunction {
   const routerState = inject(routerStateKey)
   if (!routerState) throw new TypeError(getError(`useRouter`))
 
-  const { match } = getCrParentProps()
-  const { navigator } = routerState
+  const { __match } = getCurrentParentProps()
+  const { basename, navigator } = routerState
 
-  const navigate: NavigateFunction = (to: To | number, options: NavigateOptions = {}) => {
+  const navigate: NavigateFunction = (
+    to: To | number,
+    { replace, state }: NavigateOptions = {}
+  ) => {
     if (typeof to === 'number') {
       navigator.go(to)
     } else {
-      const _match = unref(match) || emptyMatch
-      const path = queryToSearch(resolvePath(to, _match.pathname))
-      navigator[options.replace ? 'replace' : 'push'](path, options.state)
+      const match = unref(__match) || emptyMatch
+      const path = queryToSearch(resolvePath(to, match.pathname, basename))
+      navigator[replace ? 'replace' : 'push'](path, state)
     }
   }
 
@@ -100,12 +103,12 @@ export function useQuery(): Ref<Query> {
  * useMatch
  * @param pattern
  */
-export function useMatch(pattern: MaybeRef<PathPattern>): Ref<PathMatch | null> {
+export function useMatch(pattern: MaybeRef<PathPattern>): Ref<MatchResult | null> {
   const isActive = inject(compoentsRouterActive)
   if (!isActive) throw new TypeError(getError(`useMatch`))
 
   const location = useLocation()
-  const match: Ref<PathMatch | null> = ref(null)
+  const match: Ref<MatchResult | null> = ref(null)
   const _pattern = ref(pattern)
 
   const stop = watch(
@@ -128,9 +131,9 @@ export function useParams(): ComputedRef<Params> {
   const isActive = inject(compoentsRouterActive)
   if (!isActive) throw new TypeError(getError('useParams'))
 
-  const { match } = getCrParentProps()
+  const { __match } = getCurrentParentProps()
 
-  return computed(() => match?.value.params || emptyObject)
+  return computed(() => __match?.value.params || emptyObject)
 }
 
 /**
@@ -181,15 +184,17 @@ export function usePrompt(message: MaybeRef<string>, when: MaybeRef<boolean> = t
  * @param to
  */
 export function useResolvedPath(to: MaybeRef<To>): ComputedRef<Path> {
-  const isActive = inject(compoentsRouterActive)
-  if (!isActive) throw new TypeError(getError(`useResolvedPath`))
+  const routerState = inject(routerStateKey)
+  if (!routerState) throw new TypeError(getError(`useResolvedPath`))
 
-  const { match } = getCrParentProps()
+  const { __match } = getCurrentParentProps()
+  const { basename } = routerState
+
   const _to = ref(to)
 
   return computed(() => {
-    const _match = unref(match) || emptyMatch
-    return resolvePath(unref(_to), _match.pathname)
+    const _match = unref(__match) || emptyMatch
+    return resolvePath(unref(_to), _match.pathname, basename)
   })
 }
 

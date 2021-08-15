@@ -13,7 +13,7 @@ const Routes = defineComponent({
     return () => {
       return slots.default
         ? h(slots.default, {
-            routes: true
+            __routes: true
           })
         : null
     }
