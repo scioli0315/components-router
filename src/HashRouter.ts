@@ -1,34 +1,18 @@
 import { createHashHistory as createHistory } from 'history'
-import { defineComponent, h } from 'vue'
+import { defineComponent } from 'vue'
 
-import Router from './Router'
+import { base, props } from './common'
 import type { RouterProps } from './types'
 
 const HashRouter = defineComponent({
   name: 'HashRouter',
 
-  props: {
-    basename: {
-      type: String,
-      default: ''
-    },
-    linkActiveClass: String,
-    linkExactActiveClass: String
-  },
+  props,
 
   setup(props: RouterProps, { slots }) {
     const history = createHistory()
 
-    return () => {
-      const { linkActiveClass, linkExactActiveClass, basename } = props
-      return h(
-        Router,
-        { history, basename, linkActive: { linkActiveClass, linkExactActiveClass } },
-        {
-          default: () => slots.default && slots.default()
-        }
-      )
-    }
+    return base(props, slots, history)
   }
 })
 
