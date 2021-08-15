@@ -1,9 +1,9 @@
 import { defineComponent, h, onUnmounted, PropType, provide, reactive, readonly, ref } from 'vue'
 
-import type { History, Location } from './types'
-import { emptyObject, firstChar, lastChar, locationKey } from './utils'
+import type { History } from './types'
+import { emptyObject, initial, lastLetter } from './utils'
 import routersCache from './utils/routersCache'
-import { compoentsRouterActive, compoentsRouterKey, routerStateKey } from './utils/symbolKey'
+import { compoentsRouter, compoentsRouterActive, routerStateKey } from './utils/symbolKey'
 
 const Router = defineComponent({
   name: 'Router',
@@ -19,16 +19,15 @@ const Router = defineComponent({
     },
     linkActive: {
       type: Object,
-      default: () => {
-        return {}
-      }
+      default: () => ({})
     }
   },
 
   setup(props, { slots }) {
-    const basename = firstChar(lastChar(props.basename)) || '/'
+    const basename = initial(lastLetter(props.basename)) || '/'
     const cache = routersCache()
     const location = reactive({ ...props.history.location })
+
     const routerState = {
       navigator: props.history,
       location,
@@ -36,22 +35,19 @@ const Router = defineComponent({
       basename
     }
 
-    const routerMatch = ref({ path: basename, pathname: basename, params: emptyObject })
+    const __match = ref({ path: basename, pathname: basename, params: emptyObject })
 
-    const unlisten = props.history.listen(({ location: lca }: { location: Location }) => {
-      cache.clear()
-      locationKey.forEach((k) => {
-        if (k === 'state') {
-          location[k] = lca[k]
-        } else {
-          location[k] = lca[k]
-        }
-      })
-    })
-
-    onUnmounted(() => {
-      unlisten()
-    })
+    const unlisten = props.history.listen(
+      ({ location: { hash, key, pathname, search, state } }) => {
+        cache.clear()
+        location.hash = hash
+        location.key = key
+        location.pathname = pathname
+        location.search = search
+        location.state = state
+      }
+    )
+    onUnmounted(unlisten)
 
     provide(routerStateKey, readonly(routerState))
     provide(compoentsRouterActive, true)
@@ -59,8 +55,8 @@ const Router = defineComponent({
     return () =>
       slots.default
         ? h(slots.default, {
-            compoentsRouter: compoentsRouterKey,
-            match: routerMatch
+            __compoentsRouter: compoentsRouter,
+            __match
           })
         : null
   }
