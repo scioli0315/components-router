@@ -1,9 +1,10 @@
-import { defineComponent, h, inject, PropType, unref } from 'vue'
+import { defineComponent, h, inject, unref } from 'vue'
 
+import { propState, propToType } from './common'
 import type { State, To } from './types'
 import { useResolvedPath } from './useApi'
 import { getError, queryToSearch } from './utils'
-import matchPath from './utils/mathPath'
+import { matchPath } from './utils/reactRouter'
 import { routerStateKey } from './utils/symbolKey'
 
 interface Props {
@@ -23,13 +24,10 @@ const RouterLink = defineComponent({
 
   props: {
     to: {
-      type: [String, Object] as PropType<To>,
+      type: propToType,
       default: ''
     },
-    state: {
-      type: Object as PropType<State>,
-      default: null
-    },
+    state: propState,
     target: {
       type: String,
       default: '_self'
@@ -73,10 +71,10 @@ const RouterLink = defineComponent({
         exactActiveClass = linkExactActiveClass
       } = props
 
-      const pathMatch = matchPath({ path, end, caseSensitive }, location.pathname)
+      const matchResult = matchPath({ path, end, caseSensitive }, location.pathname)
 
-      const isExactActive = pathMatch && pathMatch.path === location.pathname
-      const isActive = !!pathMatch
+      const isExactActive = matchResult && matchResult.path === location.pathname
+      const isActive = !!matchResult
 
       return {
         class: {
@@ -91,6 +89,7 @@ const RouterLink = defineComponent({
     }
 
     return () => {
+      const { replace, state, custom, target } = props
       const path = queryToSearch(unref(to))
       const href = navigator.createHref(path)
       const classActive = getClassActive(path.pathname || '')
@@ -98,10 +97,10 @@ const RouterLink = defineComponent({
       const navigate = () => {
         const { pathname, search, hash } = location
         if (href === `${pathname}${search}${hash}`) return
-        navigator[props.replace ? 'replace' : 'push'](path, props.state)
+        navigator[replace ? 'replace' : 'push'](path, state)
       }
 
-      return props.custom
+      return custom
         ? slots.default && slots.default({ href, ...classActive.active, navigate })
         : h(
             'a',
@@ -110,7 +109,7 @@ const RouterLink = defineComponent({
                 onClick(e, navigate)
               },
               href,
-              target: props.target,
+              target,
               class: classActive.class
             },
             slots.default && slots.default()
