@@ -4,7 +4,7 @@ import { propState, propToType } from './common'
 import type { State, To } from './types'
 import { useNavigate } from './useApi'
 import { getError } from './utils'
-import { compoentsRouterActive } from './utils/symbolKey'
+import { compoentsRouterUsed } from './utils/symbolKey'
 
 interface Props {
   to: To
@@ -26,9 +26,9 @@ const Navigate = defineComponent({
   },
 
   setup(props: Props) {
-    const isActive = inject(compoentsRouterActive)
+    const isUse = inject(compoentsRouterUsed)
 
-    if (!isActive) throw new TypeError(getError('Navigate'))
+    if (!isUse) throw new TypeError(getError('Navigate'))
 
     const navigate = useNavigate()
 

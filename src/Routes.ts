@@ -1,14 +1,14 @@
 import { defineComponent, h, inject } from 'vue'
 
 import { getError } from './utils'
-import { compoentsRouterActive } from './utils/symbolKey'
+import { compoentsRouterUsed } from './utils/symbolKey'
 
 const Routes = defineComponent({
   name: 'Routes',
 
   setup(props, { slots }) {
-    const isActive = inject(compoentsRouterActive)
-    if (!isActive) throw new TypeError(getError('Routes'))
+    const isUse = inject(compoentsRouterUsed)
+    if (!isUse) throw new TypeError(getError('Routes'))
 
     return () => {
       return slots.default

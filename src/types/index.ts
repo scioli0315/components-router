@@ -55,4 +55,11 @@ export interface NavigateOptions {
   state?: State
 }
 
+export interface RouterLinkSlotProps {
+  href: string
+  isActive: boolean
+  isExactActive: boolean
+  navigate(): void
+}
+
 export { HistoryPartialPath, Action, Blocker, Transition, State, History, Location, Update }

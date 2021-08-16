@@ -3,7 +3,7 @@ import { defineComponent, getCurrentInstance, h, inject, unref } from 'vue'
 import { useMatch } from './useApi'
 import { createRoutePath, emptyMatch, getCurrentParentProps, getError } from './utils'
 import routersCache from './utils/routersCache'
-import { compoentsRouterActive } from './utils/symbolKey'
+import { compoentsRouterUsed } from './utils/symbolKey'
 
 interface Props {
   path: string
@@ -22,8 +22,8 @@ const Route = defineComponent({
   },
 
   setup(props: Props, { slots }) {
-    const isActive = inject(compoentsRouterActive)
-    if (!isActive) throw new TypeError(getError('Route'))
+    const isUse = inject(compoentsRouterUsed)
+    if (!isUse) throw new TypeError(getError('Route'))
 
     const cache = routersCache()
     const instance = getCurrentInstance()

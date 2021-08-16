@@ -2,9 +2,9 @@ import { InjectionKey } from 'vue'
 
 import { RouterState } from '../types'
 
-const routerStateKey: InjectionKey<RouterState> = Symbol('router stateKey')
-const compoentsRouterActive: InjectionKey<boolean> = Symbol('compoents router active')
+const routerStateKey: InjectionKey<RouterState> = Symbol('router state key')
+const compoentsRouterUsed: InjectionKey<boolean> = Symbol('compoents router used')
 
 const compoentsRouter = Symbol('compoents router')
 
-export { compoentsRouterActive, routerStateKey, compoentsRouter }
+export { compoentsRouterUsed, routerStateKey, compoentsRouter }

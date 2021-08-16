@@ -35,7 +35,7 @@ import {
   resolvePath
 } from './utils'
 import { matchPath } from './utils/reactRouter'
-import { compoentsRouterActive, routerStateKey } from './utils/symbolKey'
+import { compoentsRouterUsed, routerStateKey } from './utils/symbolKey'
 
 /**
  * useNavigate
@@ -77,8 +77,8 @@ export function useLocation(): Location {
  * useQuery
  */
 export function useQuery(): Ref<Query> {
-  const isActive = inject(compoentsRouterActive)
-  if (!isActive) throw new TypeError(getError(`useQuery`))
+  const isUse = inject(compoentsRouterUsed)
+  if (!isUse) throw new TypeError(getError(`useQuery`))
 
   const query = ref(emptyObject)
   const location = useLocation()
@@ -104,8 +104,8 @@ export function useQuery(): Ref<Query> {
  * @param pattern
  */
 export function useMatch(pattern: MaybeRef<PathPattern>): Ref<MatchResult | null> {
-  const isActive = inject(compoentsRouterActive)
-  if (!isActive) throw new TypeError(getError(`useMatch`))
+  const isUse = inject(compoentsRouterUsed)
+  if (!isUse) throw new TypeError(getError(`useMatch`))
 
   const location = useLocation()
   const match: Ref<MatchResult | null> = ref(null)
@@ -128,8 +128,8 @@ export function useMatch(pattern: MaybeRef<PathPattern>): Ref<MatchResult | null
  * useParams
  */
 export function useParams(): ComputedRef<Params> {
-  const isActive = inject(compoentsRouterActive)
-  if (!isActive) throw new TypeError(getError('useParams'))
+  const isUse = inject(compoentsRouterUsed)
+  if (!isUse) throw new TypeError(getError('useParams'))
 
   const { __match } = getCurrentParentProps()
 
@@ -169,8 +169,8 @@ export function useBlocker(blocker: Blocker, when: MaybeRef<boolean> = true): vo
  * @param when
  */
 export function usePrompt(message: MaybeRef<string>, when: MaybeRef<boolean> = true): void {
-  const isActive = inject(compoentsRouterActive)
-  if (!isActive) throw new TypeError(getError(`usePrompt`))
+  const isUse = inject(compoentsRouterUsed)
+  if (!isUse) throw new TypeError(getError(`usePrompt`))
 
   const blocker = computed(() => (tx: Transition) => {
     if (window.confirm(unref(message))) tx.retry()
