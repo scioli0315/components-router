@@ -34,7 +34,9 @@ const Navigate = defineComponent({
 
     return () => {
       const { to, replace, state } = props
-      navigate(to, { replace, state })
+      setTimeout(() => {
+        navigate(to, { replace, state })
+      })
       return null
     }
   }
