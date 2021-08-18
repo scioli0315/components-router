@@ -46,7 +46,7 @@ export interface MatchResult {
 }
 
 export interface NavigateFunction {
-  (to: To, options?: NavigateOptions): void
+  (to?: To | number, options?: NavigateOptions): void
   (delta: number): void
 }
 
