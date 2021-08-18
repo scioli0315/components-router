@@ -1,5 +1,6 @@
+import { hasOwn } from '@vue/shared'
 import qs from 'qs'
-import { ComponentInternalInstance, getCurrentInstance, Ref } from 'vue'
+import { ComponentInternalInstance, getCurrentInstance, Ref, toRaw } from 'vue'
 
 import type { HistoryPartialPath, MatchResult, PartialPath, Path, To } from '../types'
 import { normalizeSlashes, resolvePathname } from './reactRouter'
@@ -154,4 +155,36 @@ export const resolvePath = (to: To, fromPathname = '/', basename = ''): Path => 
     : fromPathname
 
   return { pathname, query, hash }
+}
+
+/**
+ * deepClone
+ * @param _
+ * @param hash
+ */
+export const deepClone = (_: any, hash = new WeakMap()): any => {
+  const v = toRaw(_)
+  if (v instanceof RegExp) return new RegExp(v)
+  if (v instanceof Date) return new Date(v)
+  if (v === null || typeof v !== 'object') return v
+  if (hash.has(v)) {
+    return hash.get(v)
+  }
+
+  const newState: any = new v.constructor()
+  hash.set(v, newState)
+  for (const k in v) {
+    if (hasOwn(v, k)) {
+      newState[k] = deepClone(v[k], hash)
+    }
+  }
+
+  const symbols = Object.getOwnPropertySymbols(v)
+  for (let i = 0; i < symbols.length; i++) {
+    if (hasOwn(v, symbols[i])) {
+      newState[symbols[i]] = deepClone(v[symbols[i]], hash)
+    }
+  }
+
+  return newState
 }

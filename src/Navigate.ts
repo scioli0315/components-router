@@ -1,9 +1,9 @@
-import { defineComponent, inject } from 'vue'
+import { defineComponent, inject, onMounted } from 'vue'
 
 import { propState, propToType } from './common'
 import type { State, To } from './types'
 import { useNavigate } from './useApi'
-import { getError } from './utils'
+import { deepClone, getError } from './utils'
 import { compoentsRouterUsed } from './utils/symbolKey'
 
 interface Props {
@@ -21,24 +21,21 @@ const Navigate = defineComponent({
       required: true
     },
     state: propState,
-    from: String,
     replace: Boolean
   },
 
   setup(props: Props) {
     const isUse = inject(compoentsRouterUsed)
-
     if (!isUse) throw new TypeError(getError('Navigate'))
 
     const navigate = useNavigate()
 
-    return () => {
+    onMounted(() => {
       const { to, replace, state } = props
-      setTimeout(() => {
-        navigate(to, { replace, state })
-      })
-      return null
-    }
+      navigate(to, { replace, state: state ? deepClone(state) : undefined })
+    })
+
+    return () => null
   }
 })
 
