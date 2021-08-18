@@ -47,10 +47,7 @@ export function useNavigate(): NavigateFunction {
   const { __match } = getCurrentParentProps()
   const { basename, navigator } = routerState
 
-  const navigate: NavigateFunction = (
-    to: To | number,
-    { replace, state }: NavigateOptions = {}
-  ) => {
+  const navigate: NavigateFunction = (to = '', { replace, state }: NavigateOptions = {}) => {
     if (typeof to === 'number') {
       navigator.go(to)
     } else {
@@ -148,8 +145,13 @@ export function useBlocker(blocker: Blocker, when: MaybeRef<boolean> = true): vo
   const { navigator } = routerState
 
   const stop = watchEffect(() => {
-    if (!unref(when)) return
     const unblock = navigator.block((tx: Transition) => {
+      if (!unref(when)) {
+        unblock()
+        tx.retry()
+        return
+      }
+
       blocker({
         ...tx,
         retry: () => {
@@ -172,8 +174,8 @@ export function usePrompt(message: MaybeRef<string>, when: MaybeRef<boolean> = t
   const isUse = inject(compoentsRouterUsed)
   if (!isUse) throw new TypeError(getError(`usePrompt`))
 
-  const blocker = computed(() => (tx: Transition) => {
-    if (window.confirm(unref(message))) tx.retry()
+  const blocker = computed(() => ({ retry }: Transition) => {
+    if (window.confirm(unref(message))) retry()
   })
 
   useBlocker(unref(blocker), when)

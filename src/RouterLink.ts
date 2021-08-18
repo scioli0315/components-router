@@ -3,7 +3,7 @@ import { defineComponent, h, inject, unref } from 'vue'
 import { propState, propToType } from './common'
 import type { State, To } from './types'
 import { useResolvedPath } from './useApi'
-import { getError, queryToSearch } from './utils'
+import { deepClone, getError, queryToSearch } from './utils'
 import { matchPath } from './utils/reactRouter'
 import { routerStateKey } from './utils/symbolKey'
 
@@ -42,8 +42,8 @@ const RouterLink = defineComponent({
 
   setup(props: Props, { slots }) {
     const routerState = inject(routerStateKey)
-
     if (!routerState) throw new TypeError(getError('RouterLink'))
+
     const {
       navigator,
       location,
@@ -97,7 +97,7 @@ const RouterLink = defineComponent({
       const navigate = () => {
         const { pathname, search, hash } = location
         if (href === `${pathname}${search}${hash}`) return
-        navigator[replace ? 'replace' : 'push'](path, state)
+        navigator[replace ? 'replace' : 'push'](path, state ? deepClone(state) : undefined)
       }
 
       return custom
