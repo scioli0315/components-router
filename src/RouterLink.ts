@@ -101,7 +101,7 @@ const RouterLink = defineComponent({
       }
 
       return custom
-        ? slots.default && slots.default({ href, ...classActive.active, navigate })
+        ? slots.default?.({ href, ...classActive.active, navigate })
         : h(
             'a',
             {
@@ -112,7 +112,7 @@ const RouterLink = defineComponent({
               target,
               class: classActive.class
             },
-            slots.default && slots.default()
+            slots.default?.()
           )
     }
   }

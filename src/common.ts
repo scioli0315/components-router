@@ -28,7 +28,7 @@ export const base = (props: RouterProps, slots: Slots, history: History): (() =>
       Router,
       { history, basename, linkActive: { linkActiveClass, linkExactActiveClass } },
       {
-        default: () => slots.default && slots.default()
+        default: () => slots.default?.()
       }
     )
   }
