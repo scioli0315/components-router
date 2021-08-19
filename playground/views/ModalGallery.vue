@@ -1,5 +1,5 @@
 <script lang="tsx">
-import { Route, RouterLink, Routes, useLocation, useNavigate, useParams } from '@src/index'
+import { Route, RouterLink, Routes, useNavigate, useParams } from '@src/index'
 import { defineComponent } from 'vue'
 
 const IMAGES = [
@@ -69,12 +69,10 @@ const Home = () => (
 
 const Gallery = defineComponent({
   setup() {
-    const location = useLocation()
-
     return () => (
       <div>
         {IMAGES.map((i) => (
-          <RouterLink key={i.id} to={`img/${i.id}`} state={{ background: location }}>
+          <RouterLink key={i.id} to={`img/${i.id}`}>
             <Thumbnail color={i.color} />
             <p>{i.title}</p>
           </RouterLink>
@@ -153,9 +151,6 @@ const Modal = defineComponent({
 
 const ModalSwitch = defineComponent({
   setup() {
-    const location = useLocation<{ background: unknown }>()
-    // const background = computed(() => location.state?.background)
-
     return () => (
       <div>
         <Routes>
@@ -170,11 +165,9 @@ const ModalSwitch = defineComponent({
           </Route>
         </Routes>
 
-        {location.state?.background && (
-          <Route path="/gallery/img/:id">
-            <Modal />
-          </Route>
-        )}
+        <Route path="/gallery/img/:id">
+          <Modal />
+        </Route>
       </div>
     )
   }
