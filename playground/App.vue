@@ -10,6 +10,7 @@ import NoMatch from './views/NoMatch.vue'
 import PreventingTransitions from './views/PreventingTransitions.vue'
 import QueryParams from './views/QueryParams.vue'
 import Recursive from './views/Recursive.vue'
+import Sidebar from './views/Sidebar.vue'
 import URLParams from './views/URLParams.vue'
 
 export default defineComponent({
@@ -40,6 +41,9 @@ export default defineComponent({
             <RouterLink to="recursive-paths">Recursive Paths</RouterLink>
           </li>
           <li>
+            <RouterLink to="sidebar">Sidebar</RouterLink>
+          </li>
+          <li>
             <RouterLink to="query-parameters">Query Params</RouterLink>
           </li>
         </ul>
@@ -68,6 +72,9 @@ export default defineComponent({
           </Route>
           <Route path="/recursive-paths/*">
             <Recursive />
+          </Route>
+          <Route path="/sidebar/*">
+            <Sidebar />
           </Route>
           <Route path="/query-parameters/*">
             <QueryParams />
