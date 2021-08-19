@@ -4,7 +4,7 @@ import { defineComponent } from 'vue'
 
 export default defineComponent({
   setup() {
-    const query = useQuery()
+    const query = useQuery<{ name: string }>()
 
     return () => (
       <div>
