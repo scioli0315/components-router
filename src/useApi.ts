@@ -75,11 +75,11 @@ export function useLocation<S extends State = State>(): Location<S> {
 /**
  * useQuery
  */
-export function useQuery(): Ref<Query> {
+export function useQuery<T extends Query = Query>(): Ref<T> {
   const isUse = inject(compoentsRouterUsed)
   if (!isUse) throw new TypeError(getError(`useQuery`))
 
-  const query = ref(emptyObject)
+  const query: Ref<any> = ref(emptyObject)
   const location = useLocation()
 
   const stop = watch(
@@ -126,13 +126,13 @@ export function useMatch(pattern: MaybeRef<PathPattern>): Ref<MatchResult | null
 /**
  * useParams
  */
-export function useParams(): ComputedRef<Params> {
+export function useParams<T extends Params = Params>(): ComputedRef<T> {
   const isUse = inject(compoentsRouterUsed)
   if (!isUse) throw new TypeError(getError('useParams'))
 
-  const { __match } = getCurrentParentProps()
+  const { __match } = getCurrentParentProps<T>()
 
-  return computed(() => __match?.value.params || emptyObject)
+  return computed(() => __match?.value.params || (emptyObject as T))
 }
 
 /**

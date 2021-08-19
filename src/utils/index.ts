@@ -2,7 +2,7 @@ import { hasOwn } from '@vue/shared'
 import qs from 'qs'
 import { ComponentInternalInstance, getCurrentInstance, Ref, toRaw } from 'vue'
 
-import type { HistoryPartialPath, MatchResult, PartialPath, Path, To } from '../types'
+import type { HistoryPartialPath, MatchResult, Params, PartialPath, Path, To } from '../types'
 import { normalizeSlashes, resolvePathname } from './reactRouter'
 import { compoentsRouter } from './symbolKey'
 
@@ -117,9 +117,9 @@ export const getCurrentParent = (
   return result
 }
 
-type ParentProps = {
+type ParentProps<T extends Params = Params> = {
   __compoentsRouter: typeof compoentsRouter
-  __match: Ref<MatchResult> | null
+  __match: Ref<MatchResult<T>> | null
   __routes?: boolean
 }
 
@@ -127,7 +127,9 @@ type ParentProps = {
  * getCurrentParentProps
  * @param parent
  */
-export const getCurrentParentProps = (parent?: ComponentInternalInstance | null): ParentProps => {
+export const getCurrentParentProps = <T extends Params = Params>(
+  parent?: ComponentInternalInstance | null
+): ParentProps<T> => {
   const crParent = parent || getCurrentParent()
   if (!crParent) {
     return {
@@ -135,7 +137,7 @@ export const getCurrentParentProps = (parent?: ComponentInternalInstance | null)
       __match: null
     }
   }
-  return crParent.props as ParentProps
+  return crParent.props as ParentProps<T>
 }
 
 /**

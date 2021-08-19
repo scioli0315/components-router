@@ -39,10 +39,10 @@ export interface Path {
   hash: string
 }
 
-export interface MatchResult {
+export interface MatchResult<T extends Params = Params> {
   path: string
   pathname: string
-  params: Params
+  params: T
 }
 
 export interface NavigateFunction {
