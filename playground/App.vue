@@ -7,6 +7,7 @@ import Auth from './views/Auth.vue'
 import Basic from './views/Basic.vue'
 import CustomLink from './views/CustomLink.vue'
 import ModalGallery from './views/ModalGallery.vue'
+import Nesting from './views/Nesting.vue'
 import NoMatch from './views/NoMatch.vue'
 import PreventingTransitions from './views/PreventingTransitions.vue'
 import QueryParams from './views/QueryParams.vue'
@@ -25,6 +26,9 @@ export default defineComponent({
           </li>
           <li>
             <RouterLink to="url-params">URL Params</RouterLink>
+          </li>
+          <li>
+            <RouterLink to="nesting">Nesting</RouterLink>
           </li>
           <li>
             <RouterLink to="auth-workflow">Redirects (Auth)</RouterLink>
@@ -61,6 +65,9 @@ export default defineComponent({
           </Route>
           <Route path="/url-params/*">
             <URLParams />
+          </Route>
+          <Route path="/nesting/*">
+            <Nesting />
           </Route>
           <Route path="/auth-workflow/*">
             <Auth />
