@@ -75,7 +75,7 @@ export function useLocation<S extends State = State>(): Location<S> {
 /**
  * useQuery
  */
-export function useQuery<T extends Query = Query>(): Ref<T> {
+export function useQuery<T extends Query = Query>(): Readonly<Ref<T>> {
   const isUse = inject(compoentsRouterUsed)
   if (!isUse) throw new TypeError(getError(`useQuery`))
 
@@ -102,7 +102,7 @@ export function useQuery<T extends Query = Query>(): Ref<T> {
  * useMatch
  * @param pattern
  */
-export function useMatch(pattern: MaybeRef<PathPattern>): Ref<MatchResult | null> {
+export function useMatch(pattern: MaybeRef<PathPattern>): Readonly<Ref<MatchResult | null>> {
   const isUse = inject(compoentsRouterUsed)
   if (!isUse) throw new TypeError(getError(`useMatch`))
 
