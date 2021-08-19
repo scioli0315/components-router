@@ -23,6 +23,8 @@ import type {
   Path,
   PathPattern,
   Query,
+  RouterState,
+  State,
   To,
   Transition
 } from './types'
@@ -63,8 +65,8 @@ export function useNavigate(): NavigateFunction {
 /**
  * useLocation
  */
-export function useLocation(): Location {
-  const routerState = inject(routerStateKey)
+export function useLocation<S extends State = State>(): Location<S> {
+  const routerState = inject(routerStateKey) as RouterState<S>
   if (!routerState) throw new TypeError(getError(`useLocation`))
 
   return routerState.location

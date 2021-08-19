@@ -22,10 +22,10 @@ export interface LinkActive {
   linkExactActiveClass: string
 }
 
-export interface RouterState {
+export interface RouterState<S extends State = State> {
   basename: string
-  navigator: History
-  location: Location
+  navigator: History<S>
+  location: Location<S>
   linkActive: LinkActive
 }
 
