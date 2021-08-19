@@ -6,11 +6,15 @@ const Child = defineComponent({
   setup() {
     const params = useParams<{ id: string }>()
 
-    return () => (
-      <div>
-        <h3>ID: {params.value.id}</h3>
-      </div>
-    )
+    return () => {
+      const { id } = params.value
+
+      return (
+        <div>
+          <h3>ID: {id}</h3>
+        </div>
+      )
+    }
   }
 })
 
