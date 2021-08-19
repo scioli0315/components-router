@@ -6,6 +6,7 @@ import logo from './assets/logo.png'
 import Auth from './views/Auth.vue'
 import Basic from './views/Basic.vue'
 import CustomLink from './views/CustomLink.vue'
+import ModalGallery from './views/ModalGallery.vue'
 import NoMatch from './views/NoMatch.vue'
 import PreventingTransitions from './views/PreventingTransitions.vue'
 import QueryParams from './views/QueryParams.vue'
@@ -44,6 +45,9 @@ export default defineComponent({
             <RouterLink to="sidebar">Sidebar</RouterLink>
           </li>
           <li>
+            <RouterLink to="modal-gallery">Modal Gallery</RouterLink>
+          </li>
+          <li>
             <RouterLink to="query-parameters">Query Params</RouterLink>
           </li>
         </ul>
@@ -75,6 +79,9 @@ export default defineComponent({
           </Route>
           <Route path="/sidebar/*">
             <Sidebar />
+          </Route>
+          <Route path="/modal-gallery/*">
+            <ModalGallery />
           </Route>
           <Route path="/query-parameters/*">
             <QueryParams />
