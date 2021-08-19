@@ -68,8 +68,12 @@ export const queryToSearch = (to: To): HistoryPartialPath => {
  * @param to
  */
 export const parsePath = (to: To): PartialPath => {
-  if (typeof to !== 'string') return { hash: '', query: {}, ...to }
   if (!to) return {}
+  if (typeof to !== 'string') {
+    const path = { hash: '', query: {}, ...to }
+    path.hash = initial(path.hash, '#')
+    return path
+  }
 
   const partialPath: PartialPath = {}
   const hashIndex = to.indexOf('#')
