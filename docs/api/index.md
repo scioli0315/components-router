@@ -37,7 +37,7 @@ interface NavigateOptions {
 }
 ```
 
-useNavigate 返回一个 `navigate` 路径方法，您可以使用该路径方法编写编程式导航，参考[编程式导航](/guide/essentials/navigation.html)。
+useNavigate 返回一个 `navigate` 路径方法，你可以使用该路径方法编写编程式导航，参考[编程式导航](/guide/essentials/navigation.html)。
 
 **!!!警告** 目标路径的跳转与`<RouterLink>`行为一致，会相对于父级 Route 的 path 值，[参考`<RouterLink>`](/api/#routerlink)文档。
 
@@ -141,7 +141,8 @@ const Home = defineComponent({
   自定义回调操作，用于在离开页面之前提示用户。
 
   - `blocker` 回调路径方法，自定义执行操作后执行 tx.retry()。
-  - `when` 您可以始终渲染它，而可以通过 when 来阻止或允许进行相应的导航。
+    - 解构：`{action, location, retry} = tx`。
+  - `when` 你可以始终渲染它，而可以通过 when 来阻止或允许进行相应的导航。
 
   ```tsx
   import { useBlocker } from 'components-router'
@@ -149,9 +150,11 @@ const Home = defineComponent({
     setup() {
       const when = ref(true)
 
-      useBlocker((tx) => {
-        // 您要做的事情
-        tx.retry()
+      useBlocker(({ action, location, retry }) => {
+        // 你要做的事情
+        console.log(action)
+        console.log(location)
+        retry()
       }, when)
     }
   })
@@ -164,7 +167,7 @@ const Home = defineComponent({
   使用 `window.confirm` 在用户离开页面之前提示用户。
 
   - `message` 提示用户的消息。
-  - `when` 您可以始终渲染它，而可以通过 when 来阻止或允许进行相应的导航。
+  - `when` 你可以始终渲染它，而可以通过 when 来阻止或允许进行相应的导航。
 
   ```tsx
   import { usePrompt } from 'components-router'
@@ -172,7 +175,7 @@ const Home = defineComponent({
     setup() {
       const when = ref(true)
 
-      usePrompt('您要说的话', when)
+      usePrompt('你要说的话', when)
     }
   })
   ```
@@ -183,7 +186,7 @@ const Home = defineComponent({
 
   根据传入 To 值生成**相对于父级**`<Route>` 的超链接 href 值，值为 Ref 对象，取值需要添加`.value`。
 
-  - `to` 要生成 href 的对象或字符串，详情可参考[to 文档](/api/#to-3)。
+  - `to` 要生成 href 的对象或字符串，详情可参考[to 文档](/api/#to-2)。
 
   ```ts
   // 若当前展示组件的父级<Route path>为 /about/user
@@ -214,21 +217,21 @@ const Home = defineComponent({
 
   根据传入 To 值获取**相对于父级**`<Route>`的 Path 值，值为 Ref 对象，取值需要添加`.value`。
 
-  - `to` 要生成 Path 的对象或字符串，详情可参考[to 文档](/api/#to-3)。
+  - `to` 要生成 Path 的对象或字符串，详情可参考[to 文档](/api/#to-2)。
 
   ```ts
   // 若当前展示组件的父级<Route path>为 /about/user
 
   const path = useResolvedPath('/detail')
-  console.log(path.value) // 输出：{pathname: "/detail", query: , hash: ""}
+  console.log(path.value) // 输出：{pathname: "/detail", query: {}, hash: ""}
 
   // or
   const path = useResolvedPath('detail')
-  console.log(path.value) // 输出：{pathname: "/about/user/detail", query: , hash: ""}
+  console.log(path.value) // 输出：{pathname: "/about/user/detail", query: {}, hash: ""}
 
   // or
   const path = useResolvedPath('../detail')
-  console.log(path.value) // 输出：{pathname: "/about/detail", query: , hash: ""}
+  console.log(path.value) // 输出：{pathname: "/about/detail", query: {}, hash: ""}
   ```
 
 ### `useMatch`
@@ -381,7 +384,7 @@ cd ../../stats                   // pwd is /stats
 - **类型** `string | object`
 - **required**
 
-  表示目标路由的链接。当被点击后，内部会立刻把 [to](/api/#to-3) 的值传到 `history.push()`，这个值可以是一个字符串或者是描述目标位置的对象。
+  表示目标路由的链接。当被点击后，内部会立刻把 [to](/api/#to-2) 的值传到 `history.push()`，这个值可以是一个字符串或者是描述目标位置的对象。
 
   **字符串形式**
 
@@ -423,7 +426,7 @@ cd ../../stats                   // pwd is /stats
 
   通过插槽 `v-slots` 自定义 `RouterLink` 组件。
 
-  自定义插槽传入一个对象，您可添加自定义操作，包含以下属性：
+  自定义插槽传入一个对象，你可添加自定义操作，包含以下属性：
 
   - href -（string）URL
   - navigate -（function）跳转至`to`指定链接的方法，执行`navigate()`后立即跳转
@@ -670,7 +673,7 @@ export default defineComponent({
 - **类型** `string | object`
 - **required**
 
-  类型参考[to 文档](/api/#to-3)。
+  类型参考[to 文档](/api/#to-2)。
 
 ### `replace`
 
@@ -685,26 +688,77 @@ export default defineComponent({
 
   `state` 属性设置的内容会被传递到 `location.state` 中。
 
-## To
+## Type
 
-- **类型** `object | string`
+### To
 
-  要跳转路径的查询参数，对象或者字符串。
+```ts
+type To = string | Partial<Path>
+```
 
-  对象包含以下属性：
+要跳转路径的查询参数，对象或者字符串。
 
-  - pathname: 跳转的路径
-  - query: 查询参数，key/value
-  - hash: URL 上的 hash，例如：#the-hash
+对象包含以下属性：
 
-  ```js
-  // 对象
-  {
-    pathname: '/courses',
-    query: { name: '张三', id: '1' },
-    hash: '#the-hash'
-  }
+- pathname: 跳转的路径
+- query: 查询参数，key/value
+- hash: URL 上的 hash，例如：#the-hash
 
-  //字符串
-  '/courses?sort=name#the-hash'
-  ```
+```js
+// 对象
+{
+  pathname: '/courses',
+  query: { name: '张三', id: '1' },
+  hash: '#the-hash'
+}
+
+//字符串
+'/courses?sort=name#the-hash'
+```
+
+### State
+
+```ts
+type State = object | null
+```
+
+### Params
+
+```ts
+type Params = Record<string, string>
+```
+
+### Query
+
+```ts
+type Query = { [key: string]: undefined | string | string[] | Query | Query[] }
+```
+
+### Path
+
+```ts
+interface Path {
+  pathname: string
+  query: Query
+  hash: string
+}
+```
+
+### Location
+
+```ts
+interface Location<S extends State = State> extends Path {
+  state: S
+  key: string
+}
+```
+
+### Blocker
+
+```ts
+interface Blocker<S extends State = State> {
+  action: Action
+  location: Location<S>
+  retry(): void
+}
+```

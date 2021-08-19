@@ -1,6 +1,6 @@
 # 起步
 
-用 Vue.js + Components Router 创建单页应用，是非常简单的。使用 Vue.js ，我们已经可以通过组合组件来组成应用程序，当您要把 Components Router 添加进来，我们需要做的是，使用 (Route) 包裹您的组件 (components)，并告诉 Components Router 显示组件的 path 即可。下面是个基本例子：
+用 Vue.js + Components Router 创建单页应用，是非常简单的。使用 Vue.js ，我们已经可以通过组合组件来组成应用程序，当你要把 Components Router 添加进来，我们需要做的是，使用 (Route) 包裹你的组件 (components)，并告诉 Components Router 显示组件的 path 即可。下面是个基本例子：
 
 ```vue
 // App.vue

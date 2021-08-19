@@ -62,7 +62,7 @@ const User = defineComponent({
 
 ## 多组嵌套
 
-无论您在哪里，您都可以使用`<Routes>` 。每个`<Routes>`都是独立的，并会渲染匹配的子路由。
+无论你在哪里，你都可以使用`<Routes>` 。每个`<Routes>`都是独立的，并会渲染匹配的子路由。
 
 ```tsx
 <div>
