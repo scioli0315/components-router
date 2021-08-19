@@ -154,7 +154,7 @@ const Modal = defineComponent({
 const ModalSwitch = defineComponent({
   setup() {
     const location = useLocation<{ background: unknown }>()
-    const background = location.state?.background
+    // const background = computed(() => location.state?.background)
 
     return () => (
       <div>
@@ -170,7 +170,7 @@ const ModalSwitch = defineComponent({
           </Route>
         </Routes>
 
-        {background && (
+        {location.state?.background && (
           <Route path="/gallery/img/:id">
             <Modal />
           </Route>
