@@ -15,7 +15,7 @@ const find = (id: number) => {
 
 const Person = defineComponent({
   setup() {
-    const params = useParams()
+    const params = useParams<{ id: string }>()
     const person = computed(() => find(parseInt(params.value.id)))
 
     return () => (

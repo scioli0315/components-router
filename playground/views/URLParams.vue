@@ -4,7 +4,7 @@ import { defineComponent } from 'vue'
 
 const Child = defineComponent({
   setup() {
-    const params = useParams()
+    const params = useParams<{ id: string }>()
 
     return () => (
       <div>

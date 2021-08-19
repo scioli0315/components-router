@@ -86,7 +86,7 @@ const Gallery = defineComponent({
 
 const ImageView = defineComponent({
   setup() {
-    const params = useParams()
+    const params = useParams<{ id: string }>()
     const image = IMAGES[parseInt(params.value.id, 10)]
 
     return () => {
@@ -104,7 +104,7 @@ const ImageView = defineComponent({
 const Modal = defineComponent({
   setup() {
     const navigate = useNavigate()
-    const params = useParams()
+    const params = useParams<{ id: string }>()
     const image = IMAGES[parseInt(params.value.id, 10)]
 
     const back = (e: Event) => {
