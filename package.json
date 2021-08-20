@@ -18,12 +18,12 @@
   },
   "scripts": {
     "build": "rollup -c rollup.config.js",
-    "playground:dev": "vue-cli-service serve --port 8888",
-    "playground:build": "vue-cli-service build --mode production --target app --dashboard",
+    "playground:dev": "vite --config playground/vite.config.ts --port 8888",
+    "playground:build": "vue-tsc --noEmit && vite build --config playground/vite.config.ts",
     "docs:dev": "vitepress dev docs --port 8889",
     "docs:build": "vitepress build docs",
     "pub": "npm publish --registry=https://registry.npmjs.com --access=public",
-    "lint": "vue-cli-service lint"
+    "lint": "eslint --ignore-path .gitignore . --ext ts --ext vue"
   },
   "files": [
     "lib/*.js",
@@ -47,13 +47,12 @@
     "@rollup/plugin-commonjs": "^19.0.2",
     "@rollup/plugin-node-resolve": "^13.0.4",
     "@rollup/plugin-replace": "^2.4.2",
+    "@types/qs": "^6.9.7",
     "@typescript-eslint/eslint-plugin": "^4.29.1",
     "@typescript-eslint/parser": "^4.29.1",
+    "@vitejs/plugin-legacy": "^1.5.1",
+    "@vitejs/plugin-vue-jsx": "^1.1.7",
     "@vue/babel-plugin-jsx": "^1.0.6",
-    "@vue/cli-plugin-babel": "^4.5.13",
-    "@vue/cli-plugin-eslint": "^4.5.13",
-    "@vue/cli-plugin-typescript": "^4.5.13",
-    "@vue/cli-service": "^4.5.13",
     "@vue/compiler-sfc": "^3.2.4",
     "@vue/eslint-config-prettier": "^6.0.0",
     "@vue/eslint-config-typescript": "^7.0.0",
@@ -70,15 +69,18 @@
     "rollup-plugin-terser": "^7.0.2",
     "rollup-plugin-typescript2": "^0.30.0",
     "typescript": "^4.3.5",
+    "upath": "^2.0.1",
+    "vite": "^2.5.0",
     "vitepress": "^0.16.1",
-    "vue": "^3.2.4"
+    "vue": "^3.2.4",
+    "vue-tsc": "^0.2.3"
   },
   "gitHooks": {
     "pre-commit": "lint-staged"
   },
   "lint-staged": {
     "*.{ts,vue}": [
-      "vue-cli-service lint",
+      "npm run lint",
       "git add"
     ]
   }
