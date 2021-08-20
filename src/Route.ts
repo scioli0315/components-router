@@ -7,7 +7,8 @@ import { compoentsRouterUsed } from './utils/symbolKey'
 
 interface Props {
   path: string
-  caseSensitive?: boolean
+  caseSensitive: boolean
+  end: boolean
 }
 
 const Route = defineComponent({
@@ -18,7 +19,14 @@ const Route = defineComponent({
       type: String,
       required: true
     },
-    caseSensitive: Boolean
+    caseSensitive: {
+      type: Boolean,
+      default: false
+    },
+    end: {
+      type: Boolean,
+      default: true
+    }
   },
 
   setup(props: Props, { slots }) {
@@ -26,16 +34,13 @@ const Route = defineComponent({
     if (!isUse) throw new TypeError(getError('Route'))
 
     const cache = routersCache()
-    const instance = getCurrentInstance()
+    const { parent } = getCurrentInstance() || {}
     const { __match: parentMatch, __compoentsRouter } = getCurrentParentProps()
     const _parentMatch = unref(parentMatch) || emptyMatch
 
     const path = createRoutePath(_parentMatch.path, props.path)
-    const __match = useMatch({ path, caseSensitive: !!props.caseSensitive })
-
-    const parentRoutes = () => {
-      return instance?.parent?.props.__routes ? cache.getValue(instance.parent.uid) : false
-    }
+    const __match = useMatch({ path, caseSensitive: props.caseSensitive, end: props.end })
+    const parentRoutes = () => (parent?.props.__routes ? cache.getValue(parent.uid) : false)
 
     return () => {
       if (!__match.value || parentRoutes()) return null
