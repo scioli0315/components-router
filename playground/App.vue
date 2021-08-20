@@ -60,13 +60,13 @@ export default defineComponent({
           <Route path="/">
             <Navigate to="/basic" />
           </Route>
-          <Route path="/basic/*">
+          <Route end={false} path="/basic">
             <Basic />
           </Route>
-          <Route path="/url-params/*">
+          <Route end={false} path="/url-params">
             <URLParams />
           </Route>
-          <Route path="/nesting/*">
+          <Route end={false} path="/nesting">
             <Nesting />
           </Route>
           <Route path="/auth-workflow/*">
