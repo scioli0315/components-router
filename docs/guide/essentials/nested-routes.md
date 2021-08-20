@@ -82,6 +82,9 @@ const User = defineComponent({
       <Route path="/">
         <Home />
       </Route>
+      // 两种写法等效
+      // <Route end={false} path="dashboard">
+      // <Route path="dashboard/*">
       <Route path="dashboard/*">
         <Dashboard>
           <Route path="invoices">
@@ -144,7 +147,7 @@ const User = defineComponent({
 ```
 
 ```tsx
-  // ！！！警告
+  // ⚡警告⚡
   // /*后面的会被忽略
   <Route path="goods/*/:type">
     // path值为：/goods/*
