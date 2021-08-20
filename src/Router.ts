@@ -3,7 +3,11 @@ import { defineComponent, h, onUnmounted, PropType, provide, reactive, readonly,
 import type { History } from './types'
 import { emptyObject, initial, lastLetter } from './utils'
 import routersCache from './utils/routersCache'
-import { compoentsRouter, compoentsRouterUsed, routerStateKey } from './utils/symbolKey'
+import {
+  compoentsRouter as __compoentsRouter,
+  compoentsRouterUsed,
+  routerStateKey
+} from './utils/symbolKey'
 
 const Router = defineComponent({
   name: 'Router',
@@ -52,13 +56,7 @@ const Router = defineComponent({
     provide(routerStateKey, readonly(routerState))
     provide(compoentsRouterUsed, true)
 
-    return () =>
-      slots.default
-        ? h(slots.default, {
-            __compoentsRouter: compoentsRouter,
-            __match
-          })
-        : null
+    return () => slots.default && h(slots.default, { __compoentsRouter, __match })
   }
 })
 

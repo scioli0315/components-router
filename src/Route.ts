@@ -40,12 +40,7 @@ const Route = defineComponent({
     return () => {
       if (!__match.value || parentRoutes()) return null
 
-      return slots.default
-        ? h(slots.default, {
-            __compoentsRouter,
-            __match
-          })
-        : null
+      return slots.default && h(slots.default, { __compoentsRouter, __match })
     }
   }
 })

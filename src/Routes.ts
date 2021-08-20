@@ -10,13 +10,7 @@ const Routes = defineComponent({
     const isUse = inject(compoentsRouterUsed)
     if (!isUse) throw new TypeError(getError('Routes'))
 
-    return () => {
-      return slots.default
-        ? h(slots.default, {
-            __routes: true
-          })
-        : null
-    }
+    return () => slots.default && h(slots.default, { __routes: true })
   }
 })
 
