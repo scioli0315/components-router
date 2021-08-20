@@ -9,7 +9,7 @@
     "attributes": ["to", "state", "replace"]
   },
   "route": {
-    "attributes": ["path", "caseSensitive"]
+    "attributes": ["path", "caseSensitive", "end"]
   },
   "router-link": {
     "attributes": [
