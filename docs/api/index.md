@@ -659,6 +659,20 @@ export default defineComponent({
   | /One | /one              | true          | 否       |
   | /One | /one              | false         | 是       |
 
+### `end`
+
+- **类型** `boolean`
+- **默认值** `true`
+
+  是否全匹配。
+
+  ```tsx
+  // 两者效果一直
+  <Route end={false} path="/path" />
+
+  <Route path="/path/*" />
+  ```
+
 ## `<Navigate>`
 
 被渲染时，跳转至 `to` 指定的地址。
