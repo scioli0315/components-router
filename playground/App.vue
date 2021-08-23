@@ -58,7 +58,7 @@ export default defineComponent({
         <hr />
         <Routes>
           <Route path="/">
-            <Navigate to="/basic" />
+            <Navigate to="/basic" replace />
           </Route>
           <Route end={false} path="/basic">
             <Basic />

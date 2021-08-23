@@ -38,7 +38,7 @@ export default defineComponent({
 
         <Routes>
           <Route path="/">
-            <Navigate to="home" />
+            <Navigate to="home" replace />
           </Route>
           <Route path="/home">
             <Home />
