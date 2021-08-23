@@ -60,7 +60,7 @@ export const queryToSearch = (to: To): HistoryPartialPath => {
 
   const search = initial(qs.stringify(partialPath.query, { arrayFormat: 'brackets' }), '?')
 
-  return { hash: initial(partialPath.hash), pathname: partialPath.pathname || '', search }
+  return { hash: initial(partialPath.hash, '#'), pathname: partialPath.pathname || '', search }
 }
 
 /**

@@ -28,7 +28,7 @@ const Router = defineComponent({
   },
 
   setup(props, { slots }) {
-    const basename = initial(lastLetter(props.basename)) || '/'
+    const basename = initial(lastLetter(props.basename), '/') || '/'
     const cache = routersCache()
     const location = reactive({ ...props.history.location })
 
