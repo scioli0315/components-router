@@ -49,7 +49,10 @@ export function useNavigate(): NavigateFunction {
   const { __match } = getCurrentParentProps()
   const { basename, navigator } = routerState
 
-  const navigate: NavigateFunction = (to = '', { replace, state }: NavigateOptions = {}) => {
+  const navigate: NavigateFunction = (
+    to = '',
+    { replace, state }: NavigateOptions = emptyObject
+  ) => {
     if (typeof to === 'number') {
       navigator.go(to)
     } else {
