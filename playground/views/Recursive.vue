@@ -46,7 +46,7 @@ export default defineComponent({
           <Person />
         </Route>
         <Route path="/">
-          <Navigate to="0" />
+          <Navigate to="0" replace />
         </Route>
       </Routes>
     )

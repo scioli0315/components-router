@@ -47,7 +47,7 @@ export default defineComponent({
             <Home />
           </Route>
           <Route path="/old-match">
-            <Navigate to="../will-match" />
+            <Navigate to="../will-match" replace />
           </Route>
           <Route path="/will-match">
             <WillMatch />
