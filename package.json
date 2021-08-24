@@ -10,6 +10,7 @@
   "author": "scioli0315",
   "license": "MIT",
   "main": "lib/components-router.cjs.js",
+  "unpkg": "lib/components-router.global.js",
   "module": "lib/components-router.esm-bundler.js",
   "homepage": "https://github.com/scioli0315/components-router#readme",
   "repository": {
@@ -22,7 +23,7 @@
     "playground:build": "vue-tsc --noEmit && vite build --config playground/vite.config.ts",
     "docs:dev": "vitepress dev docs --port 8889",
     "docs:build": "vitepress build docs",
-    "pub": "npm publish --registry=https://registry.npmjs.com --access=public",
+    "pub": "npm run build && npm publish --registry=https://registry.npmjs.com --access=public",
     "lint": "eslint --ignore-path .gitignore . --ext ts --ext vue"
   },
   "files": [

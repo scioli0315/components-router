@@ -24,8 +24,12 @@ const outputConfigs = {
     file: pkg.main,
     format: `cjs`
   },
+  global: {
+    file: pkg.unpkg,
+    format: `iife`
+  },
   esm: {
-    file: pkg.browser || pkg.module.replace('bundler', 'browser'),
+    file: pkg.module.replace('bundler', 'browser'),
     format: `es`
   }
 }
@@ -54,11 +58,14 @@ function createConfig(format, output, plugins = []) {
   output.banner = banner
   output.externalLiveBindings = false
   output.globals = {
-    vue: 'Vue'
+    vue: 'Vue',
+    qs: 'Qs',
+    history: 'HistoryLibrary'
   }
 
   const isGlobalBuild = format === 'global'
   const isRawESMBuild = format === 'esm'
+  const isNodeBuild = format === 'cjs'
   const isBundlerESMBuild = /esm-bundler/.test(format)
 
   if (isGlobalBuild) output.name = 'ComponentsRouter'
@@ -93,7 +100,8 @@ function createConfig(format, output, plugins = []) {
       createReplacePlugin(
         isBundlerESMBuild,
         isGlobalBuild || isRawESMBuild || isBundlerESMBuild,
-        isGlobalBuild
+        isGlobalBuild,
+        isNodeBuild
       ),
       ...nodePlugins,
       ...plugins
@@ -102,13 +110,14 @@ function createConfig(format, output, plugins = []) {
   }
 }
 
-function createReplacePlugin(isBundlerESMBuild, isBrowserBuild, isGlobalBuild) {
+function createReplacePlugin(isBundlerESMBuild, isBrowserBuild, isGlobalBuild, isNodeBuild) {
   const replacements = {
     __COMMIT__: `"${process.env.COMMIT}"`,
     __VERSION__: `"${pkg.version}"`,
     __BROWSER__: isBrowserBuild,
-    __BUNDLER__: isBundlerESMBuild,
-    __GLOBAL__: isGlobalBuild
+    __BUNDLER__: JSON.stringify(isBundlerESMBuild),
+    __GLOBAL__: JSON.stringify(isGlobalBuild),
+    __NODE_JS__: JSON.stringify(isNodeBuild)
   }
   Object.keys(replacements).forEach((key) => {
     if (key in process.env) {
