@@ -1,6 +1,6 @@
 {
   "name": "components-router",
-  "version": "0.4.8",
+  "version": "0.4.9",
   "description": "Vue Router like React-Router",
   "keywords": [
     "vue",
