@@ -21,11 +21,11 @@ const config = {
     nav: [
       {
         text: '指南',
-        link: '/guide/'
+        link: '/guide/index.html'
       },
       {
         text: 'API 参考',
-        link: '/api/'
+        link: '/api/index.html'
       },
       {
         text: '更新记录',
@@ -48,7 +48,7 @@ const config = {
         children: [
           {
             text: '起步',
-            link: '/guide/'
+            link: '/guide/index.html'
           },
           {
             text: '主要组件',
