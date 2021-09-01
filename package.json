@@ -12,7 +12,7 @@
   "main": "lib/components-router.cjs.js",
   "unpkg": "lib/components-router.global.js",
   "module": "lib/components-router.esm-bundler.js",
-  "homepage": "https://github.com/scioli0315/components-router#readme",
+  "homepage": "https://docs.scioli.cn",
   "repository": {
     "type": "git",
     "url": "git+https://github.com/scioli0315/components-router.git"
