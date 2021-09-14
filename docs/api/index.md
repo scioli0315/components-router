@@ -192,15 +192,18 @@ const Home = defineComponent({
   // 若当前展示组件的父级<Route path>为 /about/user
 
   const href = useHref('/detail')
-  console.log(href.value) // 输出：/detail
+  console.log(href.value)
+  // 输出：/detail
 
   // or
   const href = useHref('detail')
-  console.log(href.value) // 输出：/about/user/detail
+  console.log(href.value)
+  // 输出：/about/user/detail
 
   //or
   const href = useHref('../detail')
-  console.log(href.value) // 输出：/about/detail
+  console.log(href.value)
+  // 输出：/about/detail
   ```
 
 ### `useResolvedPath`
@@ -223,15 +226,18 @@ const Home = defineComponent({
   // 若当前展示组件的父级<Route path>为 /about/user
 
   const path = useResolvedPath('/detail')
-  console.log(path.value) // 输出：{pathname: "/detail", query: {}, hash: ""}
+  console.log(path.value)
+  // 输出：{pathname: "/detail", query: {}, hash: ""}
 
   // or
   const path = useResolvedPath('detail')
-  console.log(path.value) // 输出：{pathname: "/about/user/detail", query: {}, hash: ""}
+  console.log(path.value)
+  // 输出：{pathname: "/about/user/detail", query: {}, hash: ""}
 
   // or
   const path = useResolvedPath('../detail')
-  console.log(path.value) // 输出：{pathname: "/about/detail", query: {}, hash: ""}
+  console.log(path.value)
+  // 输出：{pathname: "/about/detail", query: {}, hash: ""}
   ```
 
 ### `useMatch`
@@ -340,8 +346,8 @@ export default defineComponent({
     <Route path="user">
       <!--此路由的匹配path值为：/about/user -->
       <h1>/about/user</h1>
-    </Router>
-  </Routes>
+    </Route>
+  </Router>
   ```
 
 ### `linkActiveClass`
