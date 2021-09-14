@@ -84,8 +84,8 @@ const Gallery = defineComponent({
 
 const ImageView = defineComponent({
   setup() {
-    const params = useParams<{ id: string }>()
-    const image = IMAGES[parseInt(params.value.id, 10)]
+    const params = useParams<'id'>()
+    const image = IMAGES[+(params.value.id || 0)]
 
     return () => {
       if (!image) return <div>Image not found</div>
@@ -102,8 +102,8 @@ const ImageView = defineComponent({
 const Modal = defineComponent({
   setup() {
     const navigate = useNavigate()
-    const params = useParams<{ id: string }>()
-    const image = IMAGES[parseInt(params.value.id, 10)]
+    const params = useParams<'id'>()
+    const image = IMAGES[+(params.value.id || 0)]
 
     const back = (e: Event) => {
       e.stopPropagation()

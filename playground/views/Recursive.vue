@@ -13,8 +13,8 @@ const find = (id: number) => PEEPS.find((p) => p.id === id)
 
 const Person = defineComponent({
   setup() {
-    const params = useParams<{ id: string }>()
-    const person = computed(() => find(parseInt(params.value.id)))
+    const params = useParams<'id'>()
+    const person = computed(() => (params.value.id ? find(+params.value.id) : undefined))
 
     return () => (
       <div>

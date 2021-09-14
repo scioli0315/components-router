@@ -10,7 +10,7 @@ const Home = () => (
 
 const Topic = defineComponent({
   setup() {
-    const params = useParams<{ topicId: string }>()
+    const params = useParams<'topicId'>()
 
     return () => {
       const { topicId } = params.value
