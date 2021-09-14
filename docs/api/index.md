@@ -8,7 +8,7 @@ sidebar: auto
 
 Components Router 提供多少 Composition API 使用。
 
-**⚡警告⚡** Composition API 仅可以在`setup()`中使用。
+**⚡ 警告 ⚡** Composition API 仅可以在`setup()`中使用。
 
 ```tsx
 import { useNavigate, useLocation, useParams, useQuery } from 'components-router'
@@ -39,7 +39,7 @@ interface NavigateOptions {
 
 useNavigate 返回一个 `navigate` 路径方法，你可以使用该路径方法编写编程式导航，参考[编程式导航](/guide/essentials/navigation.html)。
 
-**⚡警告⚡** 目标路径的跳转与`<RouterLink>`行为一致，会相对于父级 Route 的 path 值，[参考`<RouterLink>`](/api/#routerlink)文档。
+**⚡ 警告 ⚡** 目标路径的跳转与`<RouterLink>`行为一致，会相对于父级 Route 的 path 值，[参考`<RouterLink>`](/api/#routerlink)文档。
 
 获取 `navigate` 路径方法：
 
@@ -329,20 +329,6 @@ export default defineComponent({
 })
 ```
 
-### `linkActiveClass`
-
-- **类型** `string`
-- **默认值** `"router-link-active"`
-
-  全局配置 `<RouterLink> `默认激活的 class。参考 [`<RouterLink>`](/api/#routerlink)。
-
-### `linkExactActiveClass`
-
-- **类型** `string`
-- **默认值** `"router-link-exact-active"`
-
-  全局配置 `<RouterLink> `默认精确激活的 class。参考 [`<RouterLink>`](/api/#routerlink)。
-
 ### `basename`
 
 - **类型** `string`
@@ -357,6 +343,20 @@ export default defineComponent({
     </Router>
   </Routes>
   ```
+
+### `linkActiveClass`
+
+- **类型** `string`
+- **默认值** `"router-link-active"`
+
+  全局配置 `<RouterLink> `默认激活的 class。参考 [`<RouterLink>`](/api/#routerlink)。
+
+### `linkExactActiveClass`
+
+- **类型** `string`
+- **默认值** `"router-link-exact-active"`
+
+  全局配置 `<RouterLink> `默认精确激活的 class。参考 [`<RouterLink>`](/api/#routerlink)。
 
 ## `<RouterLink>`
 
