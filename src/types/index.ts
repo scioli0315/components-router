@@ -10,12 +10,17 @@ import type {
 } from 'history'
 import { Ref } from 'vue'
 
-export type Params = Record<string, string>
+export type Params<Key extends string = string> = {
+  readonly [key in Key]: string | undefined
+}
 export type Query = { [key: string]: undefined | string | string[] | Query | Query[] }
 export type To = string | PartialPath
-export type PathPattern = string | { path: string; caseSensitive?: boolean; end?: boolean }
+export type PathPattern = { path: string; caseSensitive?: boolean; end?: boolean }
 export type PartialPath = Partial<Path>
 export type MaybeRef<T> = Ref<T> | T
+export type Mutable<T> = {
+  -readonly [P in keyof T]: T[P]
+}
 
 export interface LinkActive {
   linkActiveClass: string
@@ -39,10 +44,10 @@ export interface Path {
   hash: string
 }
 
-export interface MatchResult<T extends Params = Params> {
-  path: string
-  url: string
-  params: T
+export interface PathMatch<ParamKey extends string = string> {
+  pattern: PathPattern
+  pathname: string
+  params: Params<ParamKey>
 }
 
 export interface NavigateFunction {

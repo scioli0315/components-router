@@ -2,7 +2,7 @@ import { hasOwn } from '@vue/shared'
 import qs from 'qs'
 import { ComponentInternalInstance, getCurrentInstance, Ref, toRaw } from 'vue'
 
-import type { HistoryPartialPath, MatchResult, Params, PartialPath, Path, To } from '../types'
+import type { HistoryPartialPath, PartialPath, Path, PathMatch, To } from '../types'
 import { normalizeSlashes, resolvePathname } from './reactRouter'
 import { compoentsRouter } from './symbolKey'
 
@@ -10,7 +10,7 @@ export const emptyObject = {}
 
 export const emptyPath = { pathname: '', query: {}, hash: '' }
 
-export const emptyMatch = { path: '', url: '', params: emptyObject }
+export const emptyMatch: PathMatch = { pattern: { path: '' }, pathname: '', params: emptyObject }
 
 export const getError = (msg: string): string => {
   return `${msg} 须在 "BrowserRouter"、"HashRouter" 中使用`
@@ -117,9 +117,9 @@ export const getCurrentParent = (
   return result
 }
 
-type ParentProps<T extends Params = Params> = {
+type ParentProps<ParamKey extends string = string> = {
   __compoentsRouter: typeof compoentsRouter
-  __match: Ref<MatchResult<T>> | null
+  __match: Ref<PathMatch<ParamKey>> | null
   __routes?: boolean
 }
 
@@ -127,9 +127,9 @@ type ParentProps<T extends Params = Params> = {
  * getCurrentParentProps
  * @param parent
  */
-export const getCurrentParentProps = <T extends Params = Params>(
+export const getCurrentParentProps = <ParamKey extends string = string>(
   parent?: ComponentInternalInstance | null
-): ParentProps<T> => {
+): ParentProps<ParamKey> => {
   const crParent = parent || getCurrentParent()
   if (!crParent) {
     return {
@@ -137,7 +137,7 @@ export const getCurrentParentProps = <T extends Params = Params>(
       __match: null
     }
   }
-  return crParent.props as ParentProps<T>
+  return crParent.props as ParentProps<ParamKey>
 }
 
 /**

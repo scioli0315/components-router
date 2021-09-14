@@ -73,7 +73,7 @@ const RouterLink = defineComponent({
 
       const matchResult = matchPath({ path, end, caseSensitive }, location.pathname)
 
-      const isExactActive = matchResult && matchResult.path === location.pathname
+      const isExactActive = matchResult && matchResult.pattern.path === location.pathname
       const isActive = !!matchResult
 
       return {

@@ -38,7 +38,7 @@ const Route = defineComponent({
     const { __match: parentMatch, __compoentsRouter } = getCurrentParentProps()
     const _parentMatch = unref(parentMatch) || emptyMatch
 
-    const path = createRoutePath(_parentMatch.path, props.path)
+    const path = createRoutePath(_parentMatch.pattern.path, props.path)
     const __match = useMatch({ path, caseSensitive: props.caseSensitive, end: props.end })
     const parentRoutes = () => (parent?.props.__routes ? cache.getValue(parent.uid) : false)
 

@@ -15,12 +15,12 @@ import {
 import type {
   Blocker,
   Location,
-  MatchResult,
   MaybeRef,
   NavigateFunction,
   NavigateOptions,
   Params,
   Path,
+  PathMatch,
   PathPattern,
   Query,
   RouterState,
@@ -57,7 +57,7 @@ export function useNavigate(): NavigateFunction {
       navigator.go(to)
     } else {
       const match = unref(__match) || emptyMatch
-      const path = queryToSearch(resolvePath(to, match.url, basename))
+      const path = queryToSearch(resolvePath(to, match.pathname, basename))
       navigator[replace ? 'replace' : 'push'](path, state)
     }
   }
@@ -105,12 +105,12 @@ export function useQuery<T extends Query = Query>(): Readonly<Ref<T>> {
  * useMatch
  * @param pattern
  */
-export function useMatch(pattern: MaybeRef<PathPattern>): Readonly<Ref<MatchResult | null>> {
+export function useMatch(pattern: MaybeRef<PathPattern | string>): Readonly<Ref<PathMatch | null>> {
   const isUse = inject(compoentsRouterUsed)
   if (!isUse) throw new TypeError(getError(`useMatch`))
 
   const location = useLocation()
-  const match: Ref<MatchResult | null> = ref(null)
+  const match: Ref<PathMatch | null> = ref(null)
   const _pattern = ref(pattern)
 
   const stop = watch(
@@ -129,13 +129,13 @@ export function useMatch(pattern: MaybeRef<PathPattern>): Readonly<Ref<MatchResu
 /**
  * useParams
  */
-export function useParams<T extends Params = Params>(): ComputedRef<T> {
+export function useParams<Key extends string = string>(): ComputedRef<Params<Key>> {
   const isUse = inject(compoentsRouterUsed)
   if (!isUse) throw new TypeError(getError('useParams'))
 
-  const { __match } = getCurrentParentProps<T>()
+  const { __match } = getCurrentParentProps<Key>()
 
-  return computed(() => __match?.value.params || (emptyObject as T))
+  return computed(() => __match?.value.params || (emptyObject as Params<Key>))
 }
 
 /**
@@ -201,7 +201,7 @@ export function useResolvedPath(to: MaybeRef<To>): ComputedRef<Path> {
 
   return computed(() => {
     const _match = unref(__match) || emptyMatch
-    return resolvePath(unref(_to), _match.url, basename)
+    return resolvePath(unref(_to), _match.pathname, basename)
   })
 }
 

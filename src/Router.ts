@@ -1,6 +1,16 @@
-import { defineComponent, h, onUnmounted, PropType, provide, reactive, readonly, ref } from 'vue'
+import {
+  defineComponent,
+  h,
+  onUnmounted,
+  PropType,
+  provide,
+  reactive,
+  readonly,
+  Ref,
+  ref
+} from 'vue'
 
-import type { History } from './types'
+import type { History, PathMatch } from './types'
 import { emptyObject, initial, lastLetter } from './utils'
 import routersCache from './utils/routersCache'
 import {
@@ -39,7 +49,11 @@ const Router = defineComponent({
       basename
     }
 
-    const __match = ref({ path: basename, pathname: basename, params: emptyObject })
+    const __match: Ref<PathMatch> = ref({
+      pattern: { path: basename },
+      pathname: basename,
+      params: emptyObject
+    })
 
     const unlisten = props.history.listen(
       ({ location: { hash, key, pathname, search, state } }) => {

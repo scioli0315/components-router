@@ -236,15 +236,15 @@ const Home = defineComponent({
 
 ### `useMatch`
 
-- **类型** `(pattern: Ref<PathPattern> | PathPattern): Ref<MatchResult | null>`
+- **类型** `(pattern: Ref<PathPattern | string> | PathPattern | string): Ref<PathMatch | null>`
 
   ```ts
-  type PathPattern = string | { path: string; caseSensitive?: boolean; end?: boolean }
+  type PathPattern = { path: string; caseSensitive?: boolean; end?: boolean }
 
-  interface MatchResult {
-    path: string
-    url: string
-    params: Params
+  interface PathMatch<ParamKey extends string = string> {
+    pattern: PathPattern
+    pathname: string
+    params: Params<ParamKey>
   }
   ```
 
@@ -255,7 +255,7 @@ const Home = defineComponent({
   const match = useMatch('/about/:type')
 
   console.log(match.value)
-  // 输出：{path: "/about/:type", url: "/about/user", params: { type: "user" }}
+  // 输出：{path: "/about/:type", pathname: "/about/user", params: { type: "user" }}
   ```
 
 ## `<BrowserRouter>`

@@ -1,6 +1,6 @@
 // https://github.com/ReactTraining/react-router/blob/dev/packages/react-router/index.tsx
 
-import type { MatchResult, Params, PathPattern } from '../types'
+import type { Mutable, Params, PathMatch, PathPattern } from '../types'
 
 type Result = [RegExp, string[]]
 
@@ -20,7 +20,7 @@ const safelyDecodeURIComponent = (value: string) => {
   }
 }
 
-const compilePath = (path: string, caseSensitive: boolean, end: boolean): Result => {
+const compilePath = (path: string, caseSensitive = false, end = true): Result => {
   const cacheKey = `${caseSensitive}${end}`
   const pathCache = cache[cacheKey] || (cache[cacheKey] = {})
 
@@ -67,25 +67,26 @@ const compilePath = (path: string, caseSensitive: boolean, end: boolean): Result
  * @param pattern
  * @param pathname
  */
-export const matchPath = (pattern: PathPattern, pathname: string): MatchResult | null => {
-  const {
-    path,
-    caseSensitive = false,
-    end = true
-  } = typeof pattern === 'string' ? { path: pattern } : pattern
-  const [matcher, paramNames] = compilePath(path, caseSensitive, end)
+export const matchPath = <ParamKey extends string = string>(
+  pattern: PathPattern | string,
+  pathname: string
+): PathMatch<ParamKey> | null => {
+  if (typeof pattern === 'string') {
+    pattern = { path: pattern, caseSensitive: false, end: true }
+  }
+  const [matcher, paramNames] = compilePath(pattern.path, pattern.caseSensitive, pattern.end)
   const match = pathname.match(matcher)
 
   if (!match) return null
 
-  const url = match[1].replace(/\/+$/, '')
+  const matchedPathname = match[1]
   const values = match.slice(2)
-  const params = paramNames.reduce((memo, paramName, index) => {
+  const params: Params = paramNames.reduce<Mutable<Params>>((memo, paramName, index) => {
     memo[paramName] = safelyDecodeURIComponent(values[index] || '')
     return memo
-  }, {} as Params)
+  }, {})
 
-  return { path, url, params }
+  return { params, pathname: matchedPathname, pattern }
 }
 
 /**
