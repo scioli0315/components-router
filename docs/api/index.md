@@ -243,7 +243,7 @@ const Home = defineComponent({
 
   interface MatchResult {
     path: string
-    pathname: string
+    url: string
     params: Params
   }
   ```
@@ -255,7 +255,7 @@ const Home = defineComponent({
   const match = useMatch('/about/:type')
 
   console.log(match.value)
-  // 输出：{path: "/about/:type", pathname: "/about/user", params: { type: "user" }}
+  // 输出：{path: "/about/:type", url: "/about/user", params: { type: "user" }}
   ```
 
 ## `<BrowserRouter>`

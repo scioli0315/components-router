@@ -57,7 +57,7 @@ export function useNavigate(): NavigateFunction {
       navigator.go(to)
     } else {
       const match = unref(__match) || emptyMatch
-      const path = queryToSearch(resolvePath(to, match.pathname, basename))
+      const path = queryToSearch(resolvePath(to, match.url, basename))
       navigator[replace ? 'replace' : 'push'](path, state)
     }
   }
@@ -201,7 +201,7 @@ export function useResolvedPath(to: MaybeRef<To>): ComputedRef<Path> {
 
   return computed(() => {
     const _match = unref(__match) || emptyMatch
-    return resolvePath(unref(_to), _match.pathname, basename)
+    return resolvePath(unref(_to), _match.url, basename)
   })
 }
 

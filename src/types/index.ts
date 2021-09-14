@@ -41,7 +41,7 @@ export interface Path {
 
 export interface MatchResult<T extends Params = Params> {
   path: string
-  pathname: string
+  url: string
   params: T
 }
 

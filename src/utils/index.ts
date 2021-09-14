@@ -10,7 +10,7 @@ export const emptyObject = {}
 
 export const emptyPath = { pathname: '', query: {}, hash: '' }
 
-export const emptyMatch = { path: '', pathname: '', params: emptyObject }
+export const emptyMatch = { path: '', url: '', params: emptyObject }
 
 export const getError = (msg: string): string => {
   return `${msg} 须在 "BrowserRouter"、"HashRouter" 中使用`

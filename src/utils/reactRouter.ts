@@ -78,14 +78,14 @@ export const matchPath = (pattern: PathPattern, pathname: string): MatchResult |
 
   if (!match) return null
 
-  const matchedPathname = match[1]
+  const url = match[1].replace(/\/+$/, '')
   const values = match.slice(2)
   const params = paramNames.reduce((memo, paramName, index) => {
     memo[paramName] = safelyDecodeURIComponent(values[index] || '')
     return memo
   }, {} as Params)
 
-  return { path, pathname: matchedPathname, params }
+  return { path, url, params }
 }
 
 /**
