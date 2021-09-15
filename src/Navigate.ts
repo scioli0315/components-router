@@ -1,4 +1,4 @@
-import { defineComponent, inject, onMounted } from 'vue'
+import { defineComponent, inject, watchPostEffect } from 'vue'
 
 import { propState, propToType } from './common'
 import type { State, To } from './types'
@@ -30,7 +30,7 @@ const Navigate = defineComponent({
 
     const navigate = useNavigate()
 
-    onMounted(() => {
+    watchPostEffect(() => {
       const { to, replace, state } = props
       navigate(to, { replace, state: state ? deepClone(state) : undefined })
     })
