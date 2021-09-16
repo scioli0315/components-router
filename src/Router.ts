@@ -11,7 +11,7 @@ import {
 } from 'vue'
 
 import type { History, PathMatch } from './types'
-import { emptyObject, initial, lastLetter } from './utils'
+import { emptyObject, initial, lastLetter, searchToQuery } from './utils'
 import routersCache from './utils/routersCache'
 import {
   compoentsRouter as __compoentsRouter,
@@ -40,7 +40,10 @@ const Router = defineComponent({
   setup(props, { slots }) {
     const basename = initial(lastLetter(props.basename), '/') || '/'
     const cache = routersCache()
-    const location = reactive({ ...props.history.location })
+    const location = reactive({
+      ...props.history.location,
+      query: searchToQuery(props.history.location.search)
+    })
 
     const routerState = {
       navigator: props.history,
@@ -63,6 +66,7 @@ const Router = defineComponent({
         location.pathname = pathname
         location.search = search
         location.state = state
+        location.query = searchToQuery(search)
       }
     )
     onUnmounted(unlisten)

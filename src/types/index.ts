@@ -2,7 +2,7 @@ import type {
   Action,
   Blocker,
   History,
-  Location,
+  Location as HistoryLocation,
   PartialPath as HistoryPartialPath,
   State,
   Transition,
@@ -21,6 +21,12 @@ export type MaybeRef<T> = Ref<T> | T
 export type Mutable<T> = {
   -readonly [P in keyof T]: T[P]
 }
+
+export interface Location<S extends State = State> extends HistoryLocation<S> {
+  query: Query
+}
+
+export type PartialLocation = Partial<Location>
 
 export interface LinkActive {
   linkActiveClass: string
@@ -67,4 +73,4 @@ export interface RouterLinkSlotProps {
   navigate(): void
 }
 
-export { HistoryPartialPath, Action, Blocker, Transition, State, History, Location, Update }
+export { HistoryPartialPath, Action, Blocker, Transition, State, History, Update }

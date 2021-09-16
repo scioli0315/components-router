@@ -2,7 +2,7 @@ import { hasOwn } from '@vue/shared'
 import qs from 'qs'
 import { ComponentInternalInstance, getCurrentInstance, Ref, toRaw } from 'vue'
 
-import type { HistoryPartialPath, PartialPath, Path, PathMatch, To } from '../types'
+import type { HistoryPartialPath, PartialPath, Path, PathMatch, Query, To } from '../types'
 import { normalizeSlashes, resolvePathname } from './reactRouter'
 import { compoentsRouter } from './symbolKey'
 
@@ -61,6 +61,17 @@ export const queryToSearch = (to: To): HistoryPartialPath => {
   const search = initial(qs.stringify(partialPath.query, { arrayFormat: 'brackets' }), '?')
 
   return { hash: initial(partialPath.hash, '#'), pathname: partialPath.pathname || '', search }
+}
+
+/**
+ * searchToQuery
+ * @param search
+ */
+export const searchToQuery = (search = ''): Query => {
+  const value = qs.parse(search || '', {
+    ignoreQueryPrefix: true
+  })
+  return Object.keys(value).length > 0 ? value : emptyObject
 }
 
 /**

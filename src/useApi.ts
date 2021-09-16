@@ -1,4 +1,3 @@
-import qs from 'qs'
 import {
   computed,
   ComputedRef,
@@ -78,27 +77,13 @@ export function useLocation<S extends State = State>(): Location<S> {
 /**
  * useQuery
  */
-export function useQuery<T extends Query = Query>(): Readonly<Ref<T>> {
+export function useQuery<T extends Query = Query>(): ComputedRef<T> {
   const isUse = inject(compoentsRouterUsed)
   if (!isUse) throw new TypeError(getError(`useQuery`))
 
-  const query: Ref<any> = ref(emptyObject)
   const location = useLocation()
 
-  const stop = watch(
-    () => location.search,
-    () => {
-      const value = qs.parse(location.search || '', {
-        ignoreQueryPrefix: true
-      })
-      query.value = Object.keys(value).length > 0 ? value : emptyObject
-    },
-    { immediate: true }
-  )
-
-  onUnmounted(stop)
-
-  return readonly(query)
+  return computed(() => location.query as T)
 }
 
 /**
