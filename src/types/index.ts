@@ -28,6 +28,8 @@ export interface Location<S extends State = State> extends HistoryLocation<S> {
 
 export type PartialLocation = Partial<Location>
 
+export type InitialEntry = string | PartialLocation
+
 export interface LinkActive {
   linkActiveClass: string
   linkExactActiveClass: string
